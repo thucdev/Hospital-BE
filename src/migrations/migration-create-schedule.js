@@ -1,25 +1,25 @@
 'use strict'
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable('allcodes', {
+        await queryInterface.createTable('schedule', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            keyMap: {
-                type: Sequelize.STRING,
+            timeBooked: {
+                allowNull: false,
+                type: Sequelize.DATE,
             },
-            type: {
-                type: Sequelize.STRING,
+            dateBooked: {
+                allowNull: false,
+                type: Sequelize.DATE,
             },
-            valueEn: {
-                type: Sequelize.STRING,
+            statusId: {
+                type: Sequelize.INTEGER,
             },
-            valueVi: {
-                type: Sequelize.STRING,
-            },
+
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,
@@ -31,6 +31,6 @@ module.exports = {
         })
     },
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable('allcodes')
+        await queryInterface.dropTable('schedule')
     },
 }

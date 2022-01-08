@@ -8,14 +8,13 @@ module.exports = (sequelize, DataTypes) => {
     }
     Allcode.init(
         {
-            keyMap: DataTypes.STRING,
-            type: DataTypes.STRING,
+            name: DataTypes.STRING,
             valueEn: DataTypes.STRING,
             valueVi: DataTypes.STRING,
         },
         {
             sequelize,
-            modelName: 'Allcode',
+            modelName: 'Specialty',
         }
     )
     return Allcode

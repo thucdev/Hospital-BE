@@ -7,12 +7,12 @@ const app = express()
 connectDB()
 
 const hostname = 'localhost'
-const port = 8080
+const port = 8081
 app.use(express.json())
 app.use(express.urlencoded({ extended: true }))
 
 webRoute(app)
 
 app.listen(port, hostname, () => {
-    console.log(`Hello Trung Quan Dev, I am running at ${hostname}:${port}/`)
+    console.log(`Hello Thucidol, I am running at ${hostname}:${port}/`)
 })
