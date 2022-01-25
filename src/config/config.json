@@ -4,7 +4,12 @@
     "password": null,
     "database": "hospitaldb",
     "host": "127.0.0.1",
-    "dialect": "mysql"
+    "dialect": "mysql",
+    "logging": true,
+    "timezone" : "+07:00",
+    "query": {
+      "raw" : true
+    }
   },
   "test": {
     "username": "root",

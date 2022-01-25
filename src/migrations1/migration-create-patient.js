@@ -1,7 +1,7 @@
 'use strict'
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable('doctors', {
+        await queryInterface.createTable('patient', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
@@ -16,7 +16,11 @@ module.exports = {
                 allowNull: false,
                 type: Sequelize.STRING,
             },
-            fullName: {
+            firstName: {
+                type: Sequelize.STRING,
+            },
+
+            lastName: {
                 type: Sequelize.STRING,
             },
             address: {
@@ -25,37 +29,18 @@ module.exports = {
             gender: {
                 type: Sequelize.STRING,
             },
-            phoneNumber: {
-                type: Sequelize.STRING,
-            },
-            language: {
-                type: Sequelize.STRING,
-            },
-            certificate: {
-                type: Sequelize.STRING,
-            },
-            experience: {
-                type: Sequelize.STRING,
-            },
-            member: {
-                type: Sequelize.STRING,
-            },
-            field: {
-                type: Sequelize.STRING,
-            },
             roleId: {
                 allowNull: false,
                 type: Sequelize.STRING,
             },
-
-            specialtyId: {
-                type: Sequelize.INTEGER,
+            phoneNumber: {
+                type: Sequelize.STRING,
             },
-            scheduleId: {
-                type: Sequelize.INTEGER,
-            },
+            // positionId: {
+            //     type: Sequelize.STRING,
+            // },
             image: {
-                type: Sequelize.BLOB('long'),
+                type: Sequelize.STRING,
             },
             createdAt: {
                 allowNull: false,
@@ -68,6 +53,6 @@ module.exports = {
         })
     },
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable('doctors')
+        await queryInterface.dropTable('patient')
     },
 }

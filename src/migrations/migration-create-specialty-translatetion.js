@@ -1,20 +1,17 @@
 'use strict'
 module.exports = {
     up: async (queryInterface, Sequelize) => {
-        await queryInterface.createTable('specialties', {
+        await queryInterface.createTable('specialty_translation', {
             id: {
                 allowNull: false,
                 autoIncrement: true,
                 primaryKey: true,
                 type: Sequelize.INTEGER,
             },
-            img: {
-                type: Sequelize.BLOB('long'),
-                allowNull: true,
+            specialtyId: {
+                type: Sequelize.INTEGER,
+                allowNull: false,
             },
-            // doctorId: {
-            //     type: Sequelize.INTEGER,
-            // },
             title: {
                 type: Sequelize.STRING,
             },
@@ -24,7 +21,9 @@ module.exports = {
             descriptionMarkdown: {
                 type: Sequelize.STRING,
             },
-
+            langCode: {
+                type: Sequelize.STRING,
+            },
             createdAt: {
                 allowNull: false,
                 type: Sequelize.DATE,
@@ -36,6 +35,6 @@ module.exports = {
         })
     },
     down: async (queryInterface, Sequelize) => {
-        await queryInterface.dropTable('specialties')
+        await queryInterface.dropTable('specialty_translation')
     },
 }
