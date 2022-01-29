@@ -18,14 +18,21 @@ const webRoute = (app) => {
 
     router.post(
         '/v1/api/create-new-specialty',
-        verifyToken,
-        checkRole.checkAdmin,
+        // verifyToken,
+        // checkRole.checkAdmin,
         specialtyController.createNewSpecialty
     )
-    router.get(
-        '/v1/api/get-all-specialties',
+    router.post(
+        '/v1/api/create-new-specialty-translation',
         // verifyToken,
-        specialtyController.getAllSpecialties
+        // checkRole.checkAdmin,
+        specialtyController.createNewSpecialtyTranslation
+    )
+    router.get('/v1/api/get-all-specialties', specialtyController.getAllSpecialties)
+    router.get(
+        '/v1/api/get-specialty-by-id/',
+        // verifyToken,
+        specialtyController.getSpecialtyById
     )
     //router.get('/v1/api/user', verifyToken, userController.getAllUsers)
     // router.get('/v1/user', userController.getAllUsers)

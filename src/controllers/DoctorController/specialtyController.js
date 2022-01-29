@@ -13,6 +13,19 @@ let createNewSpecialty = async (req, res) => {
     }
 }
 
+let createNewSpecialtyTranslation = async (req, res) => {
+    try {
+        let info = await specialtyService.createNewSpecialtyTranslation(req.body)
+        return res.status(200).json(info)
+    } catch (error) {
+        console.log(error)
+        return res.status(200).json({
+            success: false,
+            message: 'Error when trying to create new specialty translation',
+        })
+    }
+}
+
 let getAllSpecialties = async (req, res) => {
     try {
         let info = await specialtyService.getAllSpecialties()
@@ -25,5 +38,22 @@ let getAllSpecialties = async (req, res) => {
         })
     }
 }
+let getSpecialtyById = async (req, res) => {
+    try {
+        let info = await specialtyService.getSpecialtyById(req.query.id)
+        return res.status(200).json(info)
+    } catch (error) {
+        console.log(error)
+        return res.status(200).json({
+            success: false,
+            message: 'Error when trying to get a detail specialty',
+        })
+    }
+}
 
-module.exports = { createNewSpecialty, getAllSpecialties }
+module.exports = {
+    createNewSpecialty,
+    getAllSpecialties,
+    getSpecialtyById,
+    createNewSpecialtyTranslation,
+}

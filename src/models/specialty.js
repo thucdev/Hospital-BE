@@ -4,9 +4,9 @@ module.exports = (sequelize, DataTypes) => {
     class Specialty extends Model {
         static associate(models) {
             // define association here
-            Specialty.hasMany(models.specialtyTranslation, {
+            Specialty.hasMany(models.specialty_translation, {
                 // foreignKey: 'specialtyId',
-                as: 'specialtyData',
+                as: 'translationData',
             })
 
             // Specialty.hasMany(models.Doctor, {
@@ -22,8 +22,8 @@ module.exports = (sequelize, DataTypes) => {
             // specialtyId: DataTypes.INTEGER,
             img: DataTypes.BLOB('long'),
             title: DataTypes.STRING,
-            descriptionHTML: DataTypes.STRING,
-            descriptionMarkdown: DataTypes.STRING,
+            descriptionHTML: DataTypes.TEXT,
+            descriptionMarkdown: DataTypes.TEXT,
             // doctorId: DataTypes.INTEGER,
         },
         {

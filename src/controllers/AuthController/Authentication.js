@@ -11,9 +11,9 @@ let refreshTokens = [] // binh thuong se luu vao redis cho khoi bi trung lap
 //@access Public
 const checkUserIsLogin = async (req, res) => {
     try {
-        // const user = await User.scope('withoutPassword').findOne({ where: { id: req.id } })
-        const user = await db.User.findOne({ where: { id: req.user.id } })
-        if (!user) return res.status(200).json({ success: false, message: 'User not found' })
+        // const user = await Doctor.scope('withoutPassword').findOne({ where: { id: req.id } })
+        const user = await db.Doctor.findOne({ where: { id: req.user.id } })
+        if (!user) return res.status(200).json({ success: false, message: 'Doctor not found' })
 
         return res.json({ success: true, user })
     } catch (error) {
@@ -29,7 +29,7 @@ const register = async (req, res) => {
 
     try {
         //check existing user
-        const user = await db.User.findOne({
+        const user = await db.Doctor.findOne({
             where: { email: req.body.email },
             raw: true,
         })
@@ -41,7 +41,7 @@ const register = async (req, res) => {
         const hashPW = bcrypt.hashSync(req.body.password, salt)
 
         //create user
-        const newUser = await db.User.create({
+        const newUser = await db.Doctor.create({
             email: req.body.email,
             password: hashPW,
             // firstName: data.firstName,
@@ -96,7 +96,7 @@ const login = async (req, res) => {
 
     // let userData = {}
     try {
-        const user = await db.User.findOne({
+        const user = await db.Doctor.findOne({
             where: { email: req.body.email },
             raw: true,
         })

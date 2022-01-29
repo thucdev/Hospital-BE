@@ -19,10 +19,10 @@ module.exports = {
                 type: Sequelize.STRING,
             },
             descriptionHTML: {
-                type: Sequelize.STRING,
+                type: Sequelize.TEXT,
             },
             descriptionMarkdown: {
-                type: Sequelize.STRING,
+                type: Sequelize.TEXT,
             },
 
             createdAt: {
