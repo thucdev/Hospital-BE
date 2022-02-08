@@ -34,8 +34,12 @@ const webRoute = (app) => {
         // verifyToken,
         specialtyController.getSpecialtyById
     )
-    //router.get('/v1/api/user', verifyToken, userController.getAllUsers)
-    // router.get('/v1/user', userController.getAllUsers)
+    router.put(
+        '/v1/api/update-specialty',
+        // verifyToken,
+        // checkRole.checkAdmin,
+        specialtyController.updateSpecialty
+    )
 
     return app.use('/', router)
 }

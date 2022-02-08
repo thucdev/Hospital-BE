@@ -99,11 +99,25 @@ let getAllSpecialties = () => {
 let getSpecialtyById = (id) => {
     return new Promise(async (resolve, reject) => {
         try {
-            let data = await db.Specialty.findOne({ where: { id: id } })
+            let data = await db.Specialty.findOne({
+                where: { id: id },
+                include: [
+                    {
+                        model: db.specialty_translation,
+                        as: 'translationData',
+                        attributes: [
+                            'descriptionHTML',
+                            'descriptionMarkdown',
+                            'title',
+                            'langCode',
+                            // 'updatedAt',
+                        ],
+                    },
+                ],
+                nest: true,
+                raw: true,
+            })
             if (data && data.length > 0) {
-                // data.map((item) => {
-                //     item.img = Buffer.from(item.img, 'base64').toString('binary')
-                // })
                 data.img = Buffer.from(data.img, 'base64').toString('binary')
             }
             resolve({
@@ -116,9 +130,70 @@ let getSpecialtyById = (id) => {
     })
 }
 
+let updateSpecialty = (data) => {
+    return new Promise(async (resolve, reject) => {
+        console.log('data', data)
+        try {
+            if (!data || !data.code) {
+                resolve({
+                    success: false,
+                    message: 'Missing input parameter!',
+                })
+            } else {
+                if (data.code === 'vn') {
+                    let specialtyData = await db.Specialty.findOne({
+                        where: { id: data.specialtyId },
+                        raw: false,
+                    })
+                    if (specialtyData) {
+                        specialtyData.img = data.imgBase64
+                        specialtyData.title = data.title
+                        specialtyData.descriptionHTML = data.descriptionHTML
+                        specialtyData.descriptionMarkdown = data.descriptionMarkdown
+                        await specialtyData.save()
+                    }
+                    resolve({
+                        success: true,
+                        message: 'Update to specialty table successfully!',
+                    })
+                } else {
+                    let specialtyTranslation = await db.Specialty.findOne({
+                        where: { id: data.specialtyId },
+                        raw: false,
+                    })
+                    if (specialtyTranslation) {
+                        specialtyTranslation.title = data.title
+                        specialtyTranslation.descriptionHTML = data.descriptionHTML
+                        specialtyTranslation.descriptionMarkdown = data.descriptionMarkdown
+                        await specialtyTranslation.save()
+                    }
+
+                    if (data.imgBase64) {
+                        let specialtyData = await db.Specialty.findOne({
+                            where: { id: data.specialtyId },
+                            raw: false,
+                        })
+                        if (specialtyData) {
+                            specialtyData.img = data.imgBase64
+                            await specialtyData.save()
+                        }
+                    }
+                    resolve({
+                        success: true,
+                        message: 'Update to specialty translation table successfully!',
+                    })
+                }
+            }
+        } catch (error) {
+            reject(error)
+        }
+    })
+}
+
 module.exports = {
     createNewSpecialty,
     getAllSpecialties,
     getSpecialtyById,
     createNewSpecialtyTranslation,
+    updateSpecialty,
 }
