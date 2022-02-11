@@ -1,13 +1,18 @@
-import db from '../../models'
+import userService from "../../services/userService"
 
-const getAllUsers = async (req, res) => {
-    try {
-        const allUser = await db.User.findAll({ raw: true })
-        console.log('alluser', allUser)
-        return res.status(200).json({ allUser })
-    } catch (error) {
-        console.log('', error)
-    }
+let createAppointment = async (req, res) => {
+   try {
+      let info = await userService.getDoctorWithoutAppointment(req.body)
+      // let info = await userService.createAppointment(req.body)
+      return res.status(200).json(info)
+   } catch (error) {
+      console.log(error)
+      return res.status(200).json({
+         success: false,
+         message: "Error when trying to create new appointment",
+      })
+   }
 }
-
-module.exports = { getAllUsers }
+module.exports = {
+   createAppointment,
+}
