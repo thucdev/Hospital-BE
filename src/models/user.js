@@ -16,6 +16,11 @@ module.exports = (sequelize, DataTypes) => {
 
          User.hasMany(models.Schedule, { foreignKey: "patientId", as: "patientData" })
          User.hasMany(models.Schedule, { foreignKey: "doctorId", as: "doctorData" })
+         User.belongsTo(models.Specialty, {
+            foreignKey: "specialtyId",
+            targetKey: "id",
+            as: "specialtyData",
+         })
       }
    }
    User.init(
@@ -28,9 +33,9 @@ module.exports = (sequelize, DataTypes) => {
          gender: DataTypes.STRING,
          image: DataTypes.BLOB("long"),
          roleId: DataTypes.STRING,
+         specialtyId: DataTypes.STRING,
          questionId: DataTypes.INTEGER,
          feedbackId: DataTypes.INTEGER,
-         // positionId: DataTypes.STRING,
       },
       // {
       //     scopes: {

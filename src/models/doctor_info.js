@@ -32,8 +32,8 @@ module.exports = (sequelize, DataTypes) => {
          degree: DataTypes.JSON,
          member: DataTypes.JSON,
          field: DataTypes.JSON,
-         specialtyId: DataTypes.INTEGER,
-         scheduleId: DataTypes.INTEGER,
+         // specialtyId: DataTypes.INTEGER,
+         // scheduleId: DataTypes.INTEGER,
       },
 
       {

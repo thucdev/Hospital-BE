@@ -29,9 +29,9 @@ module.exports = (sequelize, DataTypes) => {
    }
    Schedule.init(
       {
-         fullName: DataTypes.STRING,
-         phoneNumber: DataTypes.STRING,
-         email: DataTypes.STRING,
+         // fullName: DataTypes.STRING,
+         // phoneNumber: DataTypes.STRING,
+         // email: DataTypes.STRING,
          reason: DataTypes.STRING,
          status: DataTypes.STRING,
          timeBooked: DataTypes.STRING,

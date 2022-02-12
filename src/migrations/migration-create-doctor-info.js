@@ -52,12 +52,12 @@ module.exports = {
          field: {
             type: Sequelize.JSON,
          },
-         specialtyId: {
-            type: Sequelize.INTEGER,
-         },
-         scheduleId: {
-            type: Sequelize.INTEGER,
-         },
+         // specialtyId: {
+         //    type: Sequelize.INTEGER,
+         // },
+         // scheduleId: {
+         //    type: Sequelize.INTEGER,
+         // },
 
          createdAt: {
             allowNull: false,

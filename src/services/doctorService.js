@@ -32,6 +32,7 @@ let createDoctor = (data) => {
                      fullName: data.fullName,
                      roleId: "R2",
                      image: data.image,
+                     specialtyId: data.specialtyId,
                   },
                })
 
@@ -50,7 +51,6 @@ let createDoctor = (data) => {
                         experience: data.experience,
                         member: data.member,
                         field: data.field,
-                        specialtyId: data.specialtyId,
                      })
                   }
                } else {
