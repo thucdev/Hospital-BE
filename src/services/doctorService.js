@@ -82,6 +82,44 @@ let hashUserPassword = (password) => {
    })
 }
 
+let getAllDoctor = () => {
+   return new Promise(async (resolve, reject) => {
+      try {
+         let data = await db.User.findAll({
+            where: { roleId: "R2" },
+            include: [
+               {
+                  model: db.Doctor_info,
+                  as: "doctor_infoData",
+                  attributes: [
+                     "language",
+                     "certificate",
+                     "degree",
+                     "experience",
+                     "member",
+                     "field",
+                  ],
+               },
+            ],
+            nest: true,
+            raw: true,
+         })
+         if (data && data.length > 0) {
+            data.map((item) => {
+               item.image = Buffer.from(item.image, "base64").toString("binary")
+            })
+         }
+         resolve({
+            success: true,
+            data: data,
+         })
+      } catch (error) {
+         reject(error)
+      }
+   })
+}
+
 module.exports = {
    createDoctor,
+   getAllDoctor,
 }

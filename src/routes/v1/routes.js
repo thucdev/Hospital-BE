@@ -41,6 +41,12 @@ const webRoute = (app) => {
       // checkRole.checkAdmin,
       specialtyController.updateSpecialty
    )
+   router.delete(
+      "/v1/api/delete-specialty",
+      // verifyToken,
+      // checkRole.checkAdmin,
+      specialtyController.deleteSpecialty
+   )
 
    router.post(
       "/v1/api/create-doctor",
@@ -48,6 +54,7 @@ const webRoute = (app) => {
       // checkRole.checkAdmin,
       doctorController.createDoctor
    )
+   router.get("/v1/api/get-all-doctors", doctorController.getAllDoctor)
 
    router.post("/v1/api/create-an-appointment", userController.createAppointment)
    router.post("/v1/api/verify-appointment", userController.verifyBookAppointment)
