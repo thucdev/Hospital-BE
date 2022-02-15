@@ -1,15 +1,16 @@
 import db from "../models"
 require("dotenv").config()
 import _ from "lodash"
+import emailService from "../services/emailService"
 
 import { v4 as uuidv4 } from "uuid"
 
 let buildUrlEmail = (doctorId, token) => {
-   let result = `${process.env.URL_REACT}/verify-booking?token=${token}&doctorId=${doctorId}`
+   let result = `${process.env.URL_REACT}/verify-appointment?token=${token}&doctorId=${doctorId}`
+   // let result = `${process.env.URL_REACT}/verify-booking?token=${token}`
    return result
 }
 
-//tim bac si chua co lich
 let getDoctorWithoutAppointment = async (specialtyId, dateBooked, timeBooked) => {
    let allDoctor = await db.User.findAll({ where: { roleId: "R2", specialtyId } })
    let doctorIdArr = allDoctor.reduce((doctorIds, item) => {
@@ -21,9 +22,8 @@ let getDoctorWithoutAppointment = async (specialtyId, dateBooked, timeBooked) =>
       return doctorIds.concat(item.doctorId)
    }, [])
 
-   // tim doctor ko co trong doctorIdHadSchedule
+   // find list doctor not in doctorIdHadSchedule
    let differentId = _.difference(doctorIdArr, doctorIdHadSchedule)
-   console.log("differentId", differentId)
    if (differentId.length > 0) {
       let doctorIdRandom = Math.floor(Math.random() * differentId.length)
       let doctorId = differentId[doctorIdRandom]
@@ -53,39 +53,38 @@ let getDoctorWithoutAppointment = async (specialtyId, dateBooked, timeBooked) =>
 let createAppointment = async (data) => {
    return new Promise(async (resolve, reject) => {
       try {
-         //gui email co id bac si
-         //tao data trong table schedule
-         //tim xem user da co account chua, chua co thi tao
-         //co roi thi sua
          if (
-            !data.email
-            // !data.doctorId||
-            // !data.date ||
-            // !data.address ||
-            // !data.selectedGender ||
-            // !data.timeType ||
-            // !data.fullName
+            !data.email ||
+            !data.dateBooked ||
+            !data.timeBooked ||
+            !data.specialtyId ||
+            !data.fullName
          ) {
             resolve({
                success: false,
                message: "Missing input parameter!",
             })
          } else {
-            //tao token
             let token = uuidv4()
 
-            //tim bac si chua co lich
-            // let doctorId = await getDoctorWithoutAppointment(data.specialtyId)
-            let doctorId = await getDoctorWithoutAppointment()
+            //find doctor without appointment
+            let doctorId = await getDoctorWithoutAppointment(
+               data.specialtyId,
+               data.dateBooked,
+               data.timeBooked
+            )
 
-            // await emailService.sendSimpleEmail({
-            //    receiverEmail: data.email,
-            //    patientName: data.fullName,
-            //    time: data.timeString,
-            //    doctorName: data.doctorName,
-            //    language: data.language,
-            //    redirectLink: buildUrlEmail(data.doctorId, token),
-            // })
+            let doctorName = await db.User.findOne({ where: { id: doctorId } })
+            let time = await db.Role.findOne({ where: { keyMap: data.timeBooked } })
+            await emailService.sendSimpleEmail({
+               receiverEmail: data.email,
+               patientName: data.fullName,
+               time: time.valueVi,
+               doctorName: doctorName.fullName,
+               language: "vi",
+               redirectLink: buildUrlEmail(doctorId, token),
+               // language: data.language,
+            })
 
             //upsert patient
             let user = await db.User.findOrCreate({
@@ -99,7 +98,6 @@ let createAppointment = async (data) => {
                   phoneNumber: data.phoneNumber,
                },
             })
-            console.log("user", user)
 
             //check user has had an appointment
             let isBooked = await db.Schedule.findOne({
@@ -117,15 +115,15 @@ let createAppointment = async (data) => {
             } else {
                //create an appointment
                if (user && user[0]) {
-                  // co email roi tao them schedule
-                  let res = await db.Schedule.create({
+                  // if email is already exist, create schedule
+                  await db.Schedule.create({
                      status: "S1",
                      doctorId: doctorId,
                      patientId: user[0].id,
                      dateBooked: data.dateBooked,
                      timeBooked: data.timeBooked,
                      reason: data.reason,
-                     // token: token,
+                     token: token,
                   })
                   resolve({
                      success: true,
@@ -137,7 +135,6 @@ let createAppointment = async (data) => {
                      message: "Booking fail",
                   })
                }
-               // create booking record
                resolve({
                   success: true,
                   message: "Booking success",
@@ -145,11 +142,50 @@ let createAppointment = async (data) => {
             }
          }
       } catch (error) {
-         console.log(error)
+         reject(error)
       }
    })
 }
+
+let verifyBookAppointment = (data) => {
+   return new Promise(async (resolve, reject) => {
+      try {
+         if (!data.token || !data.doctorId) {
+            resolve({
+               success: false,
+               message: "Error when trying to verify new appointment",
+            })
+         } else {
+            let appointment = await db.Schedule.findOne({
+               where: {
+                  doctorId: data.doctorId,
+                  token: data.token,
+                  status: "S1",
+               },
+               raw: false,
+            })
+            if (appointment) {
+               appointment.status = "S2"
+
+               await appointment.save()
+               resolve({
+                  success: true,
+                  message: "Update the appointment succeed",
+               })
+            } else {
+               resolve({
+                  success: false,
+                  message: "Schedule has been activated or doest not exist",
+               })
+            }
+         }
+      } catch (error) {
+         reject(error)
+      }
+   })
+}
+
 module.exports = {
    createAppointment,
-   getDoctorWithoutAppointment,
+   verifyBookAppointment,
 }

@@ -19,7 +19,7 @@ let createNewSpecialty = (data) => {
             })
             resolve({
                success: true,
-               message: "Oke",
+               message: "Create Successfully",
             })
          }
       } catch (error) {
@@ -50,7 +50,8 @@ let createNewSpecialtyTranslation = (data) => {
                },
             })
             resolve({
-               message: "Oke",
+               success: true,
+               message: "Translate successfully",
             })
          }
       } catch (error) {

@@ -12,6 +12,21 @@ let createAppointment = async (req, res) => {
       })
    }
 }
+
+let verifyBookAppointment = async (req, res) => {
+   try {
+      let info = await userService.verifyBookAppointment(req.body)
+      return res.status(200).json(info)
+   } catch (error) {
+      console.log(error)
+      return res.status(200).json({
+         success: false,
+         message: "Error when trying to verify appointment",
+      })
+   }
+}
+
 module.exports = {
    createAppointment,
+   verifyBookAppointment,
 }

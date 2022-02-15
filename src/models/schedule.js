@@ -29,16 +29,13 @@ module.exports = (sequelize, DataTypes) => {
    }
    Schedule.init(
       {
-         // fullName: DataTypes.STRING,
-         // phoneNumber: DataTypes.STRING,
-         // email: DataTypes.STRING,
          reason: DataTypes.STRING,
          status: DataTypes.STRING,
          timeBooked: DataTypes.STRING,
          dateBooked: DataTypes.STRING,
-         // specialtyId: DataTypes.INTEGER,
          patientId: DataTypes.INTEGER,
          doctorId: DataTypes.INTEGER,
+         token: DataTypes.STRING,
       },
       {
          sequelize,

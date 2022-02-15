@@ -49,12 +49,8 @@ const webRoute = (app) => {
       doctorController.createDoctor
    )
 
-   router.post(
-      "/v1/api/create-an-appointment",
-      // verifyToken,
-      // checkRole.checkAdmin,
-      userController.createAppointment
-   )
+   router.post("/v1/api/create-an-appointment", userController.createAppointment)
+   router.post("/v1/api/verify-appointment", userController.verifyBookAppointment)
 
    return app.use("/", router)
 }
