@@ -190,10 +190,42 @@ let updateSpecialty = (data) => {
    })
 }
 
+let deleteSpecialty = (id) => {
+   return new Promise(async (resolve, reject) => {
+      try {
+         let specialty = await db.Specialty.findOne({
+            where: { id: id },
+         })
+         let specialtyTranslation = await db.specialty_translation.findOne({
+            where: { specialtyId: id },
+         })
+         if (specialty || specialtyTranslation) {
+            await db.Specialty.destroy({
+               where: { id: id },
+            })
+            await db.specialty_translation.findOne({
+               where: { specialtyId: id },
+            })
+            resolve({
+               success: true,
+               message: "Delete specialty success",
+            })
+         } else {
+            resolve({
+               success: false,
+               message: "Delete specialty fail",
+            })
+         }
+      } catch (error) {
+         reject(error)
+      }
+   })
+}
 module.exports = {
    createNewSpecialty,
    getAllSpecialties,
    getSpecialtyById,
    createNewSpecialtyTranslation,
    updateSpecialty,
+   deleteSpecialty,
 }
