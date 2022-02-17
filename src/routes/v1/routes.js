@@ -1,6 +1,7 @@
 import express from "express"
 import Authentication from "../../controllers/AuthController/Authentication"
 import specialtyController from "../../controllers/DoctorController/specialtyController"
+import adminController from "../../controllers/DoctorController/adminController"
 import doctorController from "../../controllers/DoctorController/doctorController"
 import userController from "../../controllers/UserController/userController"
 import verifyToken from "../../controllers/AuthController/middleware/verifyToken"
@@ -52,9 +53,17 @@ const webRoute = (app) => {
       "/v1/api/create-doctor",
       // verifyToken,
       // checkRole.checkAdmin,
-      doctorController.createDoctor
+      adminController.createDoctor
    )
-   router.get("/v1/api/get-all-doctors", doctorController.getAllDoctor)
+   router.post("/v1/api/get-doctor-by-id/", userController.getDoctorById)
+   router.get("/v1/api/get-all-doctors", adminController.getAllDoctor)
+   router.get("/v1/api/get-all-schedules", adminController.getAllSchedules)
+   router.post(
+      "/v1/api/is-email-exist", // checkRole.checkAdmin,
+      adminController.isEmailExist
+   )
+
+   router.post("/v1/api/get-all-schedules-by-doctor", doctorController.getAllSchedules)
 
    router.post("/v1/api/create-an-appointment", userController.createAppointment)
    router.post("/v1/api/verify-appointment", userController.verifyBookAppointment)

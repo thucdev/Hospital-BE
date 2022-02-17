@@ -121,7 +121,7 @@ let createAppointment = async (data) => {
                      doctorId: doctorId,
                      patientId: user[0].id,
                      dateBooked: data.dateBooked,
-                     timeBooked: data.timeBooked,
+                     timeBooked: time.valueVi,
                      reason: data.reason,
                      token: token,
                   })
@@ -142,6 +142,7 @@ let createAppointment = async (data) => {
             }
          }
       } catch (error) {
+         console.log("er", error)
          reject(error)
       }
    })
@@ -180,6 +181,42 @@ let verifyBookAppointment = (data) => {
             }
          }
       } catch (error) {
+         console.log("er", error)
+         reject(error)
+      }
+   })
+}
+
+let getDoctorById = (id) => {
+   return new Promise(async (resolve, reject) => {
+      try {
+         let data = await db.User.findOne({
+            where: { id: id },
+            include: [
+               {
+                  model: db.Doctor_info,
+                  as: "doctor_infoData",
+                  attributes: [
+                     "language",
+                     "certificate",
+                     "degree",
+                     "experience",
+                     "member",
+                     "field",
+                  ],
+               },
+            ],
+            nest: true,
+            raw: true,
+         })
+         if (data && data.length > 0) {
+            data.img = Buffer.from(data.img, "base64").toString("binary")
+         }
+         resolve({
+            success: true,
+            data: data,
+         })
+      } catch (error) {
          reject(error)
       }
    })
@@ -188,4 +225,5 @@ let verifyBookAppointment = (data) => {
 module.exports = {
    createAppointment,
    verifyBookAppointment,
+   getDoctorById,
 }

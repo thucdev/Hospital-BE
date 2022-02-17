@@ -26,7 +26,21 @@ let verifyBookAppointment = async (req, res) => {
    }
 }
 
+let getDoctorById = async (req, res) => {
+   try {
+      let info = await userService.getDoctorById(req.query.id)
+      return res.status(200).json(info)
+   } catch (error) {
+      console.log(error)
+      return res.status(200).json({
+         success: false,
+         message: "Error when trying to get a detail doctor",
+      })
+   }
+}
+
 module.exports = {
    createAppointment,
    verifyBookAppointment,
+   getDoctorById,
 }

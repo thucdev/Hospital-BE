@@ -1,31 +1,16 @@
 import doctorService from "../../services/doctorService"
 
-let createDoctor = async (req, res) => {
+let getAllSchedules = async (req, res) => {
    try {
-      let info = await doctorService.createDoctor(req.body)
+      let info = await doctorService.getAllSchedules(req.body.doctorId)
       return res.status(200).json(info)
    } catch (error) {
       console.log(error)
       return res.status(200).json({
          success: false,
-         message: "Error when trying to create new specialty",
+         message: "Error when trying to get all specialties",
       })
    }
 }
 
-let getAllDoctor = async (req, res) => {
-   try {
-      let info = await doctorService.getAllDoctor()
-      return res.status(200).json(info)
-   } catch (error) {
-      console.log(error)
-      return res.status(200).json({
-         success: false,
-         message: "Error when trying to create new specialty",
-      })
-   }
-}
-module.exports = {
-   createDoctor,
-   getAllDoctor,
-}
+module.exports = { getAllSchedules }
