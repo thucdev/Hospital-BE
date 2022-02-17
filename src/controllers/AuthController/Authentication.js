@@ -133,7 +133,9 @@ const login = async (req, res) => {
 
          delete user.password
          // userData.user = user
-         return res.status(200).json({ accessToken, success: true })
+         return res
+            .status(200)
+            .json({ accessToken, success: true, userId: user.id, roleId: user.roleId })
       }
    } catch (error) {
       console.log("err", error)
