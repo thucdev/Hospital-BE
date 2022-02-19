@@ -210,7 +210,14 @@ let getDoctorById = (id) => {
             raw: true,
          })
          if (data && data.length > 0) {
-            data.img = Buffer.from(data.img, "base64").toString("binary")
+            data.map((item) => {
+               item.image = Buffer.from(item.image, "base64").toString("binary")
+               item.doctor_infoData.experience = JSON.parse(item.doctor_infoData.experience)
+               item.doctor_infoData.degree = JSON.parse(item.doctor_infoData.degree)
+               item.doctor_infoData.certificate = JSON.parse(item.doctor_infoData.certificate)
+               item.doctor_infoData.member = JSON.parse(item.doctor_infoData.member)
+               item.doctor_infoData.field = JSON.parse(item.doctor_infoData.field)
+            })
          }
          resolve({
             success: true,
@@ -222,8 +229,36 @@ let getDoctorById = (id) => {
    })
 }
 
+let createQuestion = async (data) => {
+   return new Promise(async (resolve, reject) => {
+      try {
+         if (!data.email) {
+            resolve({
+               success: false,
+               message: "Missing input parameter!",
+            })
+         } else {
+            await db.Question.create({
+               email: data.email,
+               phoneNumber: data.phoneNumber,
+               fullName: data.fullName,
+               content: data.reason,
+            })
+            resolve({
+               success: true,
+               message: "Send a question successfully",
+            })
+         }
+      } catch (error) {
+         console.log("er", error)
+         reject(error)
+      }
+   })
+}
+
 module.exports = {
    createAppointment,
    verifyBookAppointment,
    getDoctorById,
+   createQuestion,
 }

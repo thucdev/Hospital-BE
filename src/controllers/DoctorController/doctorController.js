@@ -13,4 +13,31 @@ let getAllSchedules = async (req, res) => {
    }
 }
 
-module.exports = { getAllSchedules }
+let createNews = async (req, res) => {
+   try {
+      let info = await doctorService.createNews(req.body)
+      return res.status(200).json(info)
+   } catch (error) {
+      console.log(error)
+      return res.status(200).json({
+         success: false,
+         message: "Error when trying to create news",
+      })
+   }
+}
+
+let getNews = async (req, res) => {
+   try {
+      // let limit = req.query.limit
+      // let page = req.query.page
+      let info = await doctorService.getNews(req.query)
+      return res.status(200).json(info)
+   } catch (error) {
+      console.log(error)
+      return res.status(200).json({
+         success: false,
+         message: "Error when trying to get news",
+      })
+   }
+}
+module.exports = { getAllSchedules, createNews, getNews }

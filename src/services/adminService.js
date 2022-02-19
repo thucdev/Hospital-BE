@@ -107,6 +107,11 @@ let getAllDoctor = () => {
          if (data && data.length > 0) {
             data.map((item) => {
                item.image = Buffer.from(item.image, "base64").toString("binary")
+               item.doctor_infoData.experience = JSON.parse(item.doctor_infoData.experience)
+               item.doctor_infoData.degree = JSON.parse(item.doctor_infoData.degree)
+               item.doctor_infoData.certificate = JSON.parse(item.doctor_infoData.certificate)
+               item.doctor_infoData.member = JSON.parse(item.doctor_infoData.member)
+               item.doctor_infoData.field = JSON.parse(item.doctor_infoData.field)
             })
          }
          resolve({
