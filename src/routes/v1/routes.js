@@ -55,7 +55,7 @@ const webRoute = (app) => {
       // checkRole.checkAdmin,
       adminController.createDoctor
    )
-   router.post("/v1/api/get-doctor-by-id/", userController.getDoctorById)
+   router.get("/v1/api/get-doctor-by-id/", userController.getDoctorById)
    router.get("/v1/api/get-all-doctors", adminController.getAllDoctor)
    router.get("/v1/api/get-all-schedules", adminController.getAllSchedules)
    router.post(
@@ -76,6 +76,7 @@ const webRoute = (app) => {
       doctorController.createNews
    )
    router.get("/v1/api/news", doctorController.getNews)
+   router.get("/v1/api/get-news-by-id/", userController.getNewsById)
 
    return app.use("/", router)
 }

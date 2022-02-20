@@ -117,7 +117,7 @@ let getSpecialtyById = (id) => {
             nest: true,
             raw: true,
          })
-         if (data && data.length > 0) {
+         if (data) {
             data.img = Buffer.from(data.img, "base64").toString("binary")
          }
          resolve({

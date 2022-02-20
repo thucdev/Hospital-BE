@@ -229,6 +229,25 @@ let getDoctorById = (id) => {
    })
 }
 
+let getNewsById = (id) => {
+   return new Promise(async (resolve, reject) => {
+      try {
+         let data = await db.News.findOne({
+            where: { id: id },
+         })
+         if (data) {
+            data.img = Buffer.from(data.img, "base64").toString("binary")
+         }
+         resolve({
+            success: true,
+            data: data,
+         })
+      } catch (error) {
+         reject(error)
+      }
+   })
+}
+
 let createQuestion = async (data) => {
    return new Promise(async (resolve, reject) => {
       try {
@@ -261,4 +280,5 @@ module.exports = {
    verifyBookAppointment,
    getDoctorById,
    createQuestion,
+   getNewsById,
 }
