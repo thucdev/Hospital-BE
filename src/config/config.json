@@ -9,10 +9,7 @@
     "timezone" : "+07:00",
     "query": {
       "raw" : true
-    },
-    "define": {
-      "timestamps": false
-   }
+    }
   },
   "test": {
     "username": "root",

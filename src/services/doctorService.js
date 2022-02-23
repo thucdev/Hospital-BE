@@ -69,8 +69,8 @@ let getNews = (data) => {
                pageNumber = pageAsNumber
             }
 
-            let size = 5
-            if (!Number.isNaN(sizeAsNumber) && sizeAsNumber > 0 && sizeAsNumber < 5) {
+            let size = 6
+            if (!Number.isNaN(sizeAsNumber) && sizeAsNumber > 0 && sizeAsNumber < 7) {
                size = sizeAsNumber
             }
 

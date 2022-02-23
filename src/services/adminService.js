@@ -30,6 +30,8 @@ let createDoctor = (data) => {
                      email: data.email,
                      password: hashPW,
                      fullName: data.fullName,
+                     address: data.address,
+                     phoneNumber: data.phoneNumber,
                      roleId: "R2",
                      image: data.image,
                      specialtyId: data.specialtyId,
@@ -85,7 +87,7 @@ let hashUserPassword = (password) => {
 let getAllDoctor = () => {
    return new Promise(async (resolve, reject) => {
       try {
-         let data = await db.User.findAll({
+         let res = await db.User.findAndCountAll({
             where: { roleId: "R2" },
             include: [
                {
@@ -104,8 +106,9 @@ let getAllDoctor = () => {
             nest: true,
             raw: true,
          })
-         if (data && data.length > 0) {
-            data.map((item) => {
+
+         if (res && res.rows) {
+            res.rows.map((item) => {
                item.image = Buffer.from(item.image, "base64").toString("binary")
                item.doctor_infoData.experience = JSON.parse(item.doctor_infoData.experience)
                item.doctor_infoData.degree = JSON.parse(item.doctor_infoData.degree)
@@ -116,8 +119,61 @@ let getAllDoctor = () => {
          }
          resolve({
             success: true,
-            data: data,
+            data: res.rows,
+            // totalPages: Math.ceil(res.count / size),
+            total: res.count,
          })
+      } catch (error) {
+         reject(error)
+      }
+   })
+}
+
+let paginationDoctor = (data) => {
+   return new Promise(async (resolve, reject) => {
+      try {
+         const { page, limit } = data
+         if (!data) {
+            resolve({
+               success: false,
+               message: "Missing input parameter!",
+            })
+         } else {
+            const pageAsNumber = Number.parseInt(page)
+            const sizeAsNumber = Number.parseInt(limit)
+
+            let pageNumber = 0
+            if (!Number.isNaN(pageAsNumber) && pageAsNumber > 0) {
+               pageNumber = pageAsNumber
+            }
+
+            let size = 6
+            if (!Number.isNaN(sizeAsNumber) && sizeAsNumber > 0 && sizeAsNumber < 7) {
+               size = sizeAsNumber
+            }
+
+            // const skipItems = (pageNumber -1) * size
+            let res = await db.User.findAndCountAll({
+               where: {
+                  roleId: "R2",
+               },
+               offset: pageNumber * size,
+               limit: size,
+            })
+
+            if (res) {
+               res.rows.map((item) => {
+                  item.image = Buffer.from(item.image, "base64").toString("binary")
+               })
+            }
+
+            resolve({
+               success: true,
+               data: res.rows,
+               totalPages: Math.ceil(res.count / size),
+               total: res.count,
+            })
+         }
       } catch (error) {
          reject(error)
       }
@@ -181,4 +237,5 @@ module.exports = {
    getAllDoctor,
    getAllSchedules,
    isEmailExist,
+   paginationDoctor,
 }

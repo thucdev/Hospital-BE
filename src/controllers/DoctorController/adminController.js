@@ -51,9 +51,25 @@ let isEmailExist = async (req, res) => {
       })
    }
 }
+
+let paginationDoctor = async (req, res) => {
+   try {
+      // let limit = req.query.limit
+      // let page = req.query.page
+      let info = await adminService.paginationDoctor(req.query)
+      return res.status(200).json(info)
+   } catch (error) {
+      console.log(error)
+      return res.status(200).json({
+         success: false,
+         message: "Error when trying to get news",
+      })
+   }
+}
 module.exports = {
    createDoctor,
    getAllDoctor,
    getAllSchedules,
    isEmailExist,
+   paginationDoctor,
 }

@@ -56,6 +56,7 @@ const webRoute = (app) => {
       adminController.createDoctor
    )
    router.get("/v1/api/get-doctor-by-id/", userController.getDoctorById)
+   router.get("/v1/api/doctors", adminController.paginationDoctor)
    router.get("/v1/api/get-all-doctors", adminController.getAllDoctor)
    router.get("/v1/api/get-all-schedules", adminController.getAllSchedules)
    router.post(
