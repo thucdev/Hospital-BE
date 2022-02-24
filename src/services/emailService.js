@@ -10,6 +10,9 @@ let sendSimpleEmail = async (dataSend) => {
          user: process.env.EMAIL_APP, // generated ethereal user
          pass: process.env.PASSWORD_EMAIL_APP, // generated ethereal password
       },
+      tls: {
+         rejectUnauthorized: false,
+      },
    })
 
    // send mail with defined transport object

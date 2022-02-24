@@ -83,7 +83,6 @@ let createAppointment = async (data) => {
                doctorName: doctorName.fullName,
                language: "vi",
                redirectLink: buildUrlEmail(doctorId, token),
-               // language: data.language,
             })
 
             //upsert patient
