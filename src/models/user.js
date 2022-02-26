@@ -37,13 +37,7 @@ module.exports = (sequelize, DataTypes) => {
          questionId: DataTypes.INTEGER,
          feedbackId: DataTypes.INTEGER,
       },
-      // {
-      //     scopes: {
-      //         withoutPassword: {
-      //             attributes: { exclude: ['password'] },
-      //         },
-      //     },
-      // },
+
       {
          sequelize,
          modelName: "User",

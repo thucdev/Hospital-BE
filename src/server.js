@@ -1,10 +1,9 @@
-import express from "express"
-require("dotenv").config()
-import connectDB from "./config/connectDB"
-import webRoute from "./routes/v1/routes.js"
-import { errorHandler } from "./controllers/AuthController/middleware/errorHandler"
 import cors from "cors"
-// var cors = require('cors')
+import express from "express"
+import connectDB from "./config/connectDB"
+import { errorHandler } from "./controllers/AuthController/middleware/errorHandler"
+import webRoute from "./routes/v1/routes.js"
+require("dotenv").config()
 
 const app = express()
 app.use(cors())

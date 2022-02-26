@@ -1,5 +1,5 @@
-import db from "../models"
 import bcrypt from "bcrypt"
+import db from "../models"
 const salt = 10
 
 let createDoctor = (data) => {
@@ -120,7 +120,6 @@ let getAllDoctor = () => {
          resolve({
             success: true,
             data: res.rows,
-            // totalPages: Math.ceil(res.count / size),
             total: res.count,
          })
       } catch (error) {
@@ -232,10 +231,43 @@ let isEmailExist = (email) => {
       }
    })
 }
+
+let deleteDoctor = (id) => {
+   return new Promise(async (resolve, reject) => {
+      try {
+         let doctor = await db.Doctor.findOne({
+            where: { id: id },
+         })
+         let doctorInfo = await db.Doctor_info.findOne({
+            where: { doctorId: id },
+         })
+         if (doctor && doctorInfo) {
+            await db.Doctor.destroy({
+               where: { id: id },
+            })
+            await db.Doctor_info.findOne({
+               where: { specialtyId: id },
+            })
+            resolve({
+               success: true,
+               message: "Delete doctor success",
+            })
+         } else {
+            resolve({
+               success: false,
+               message: "Delete doctor fail",
+            })
+         }
+      } catch (error) {
+         reject(error)
+      }
+   })
+}
 module.exports = {
    createDoctor,
    getAllDoctor,
    getAllSchedules,
    isEmailExist,
    paginationDoctor,
+   deleteDoctor,
 }

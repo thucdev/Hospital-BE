@@ -8,29 +8,6 @@ module.exports = {
             primaryKey: true,
             type: Sequelize.INTEGER,
          },
-         // email: {
-         //     allowNull: false,
-         //     type: Sequelize.STRING,
-         // },
-         // password: {
-         //     allowNull: false,
-         //     type: Sequelize.STRING,
-         // },
-         // fullName: {
-         //     type: Sequelize.STRING,
-         // },
-         // address: {
-         //     type: Sequelize.STRING,
-         // },
-         // gender: {
-         //     type: Sequelize.STRING,
-         // },
-         // phoneNumber: {
-         //     type: Sequelize.STRING,
-         // },
-         // image: {
-         //     type: Sequelize.BLOB('long'),
-         // },
          doctorId: {
             type: Sequelize.INTEGER,
          },

@@ -1,6 +1,4 @@
 import db from "../models"
-// import specialtyTranslation from '../models/specialtyTranslation'
-// import Specialty from '../models/specialty'
 
 let createNewSpecialty = (data) => {
    return new Promise(async (resolve, reject) => {
@@ -105,13 +103,7 @@ let getSpecialtyById = (id) => {
                {
                   model: db.specialty_translation,
                   as: "translationData",
-                  attributes: [
-                     "descriptionHTML",
-                     "descriptionMarkdown",
-                     "title",
-                     "langCode",
-                     // 'updatedAt',
-                  ],
+                  attributes: ["descriptionHTML", "descriptionMarkdown", "title", "langCode"],
                },
             ],
             nest: true,

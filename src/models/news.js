@@ -6,14 +6,10 @@ module.exports = (sequelize, DataTypes) => {
    }
    News.init(
       {
-         // name: DataTypes.STRING,
-         // languageId: DataTypes.INTEGER,
-         // specialtyId: DataTypes.INTEGER,
          img: DataTypes.BLOB("long"),
          title: DataTypes.STRING,
          descriptionHTML: DataTypes.TEXT,
          descriptionMarkdown: DataTypes.TEXT,
-         // doctorId: DataTypes.INTEGER,
       },
       {
          sequelize,

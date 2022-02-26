@@ -1,13 +1,11 @@
-import db from "../models"
-require("dotenv").config()
 import _ from "lodash"
-import emailService from "../services/emailService"
-
 import { v4 as uuidv4 } from "uuid"
+import db from "../models"
+import emailService from "../services/emailService"
+require("dotenv").config()
 
 let buildUrlEmail = (doctorId, token) => {
    let result = `${process.env.URL_REACT}/verify-appointment?token=${token}&doctorId=${doctorId}`
-   // let result = `${process.env.URL_REACT}/verify-booking?token=${token}`
    return result
 }
 

@@ -28,8 +28,6 @@ let createNews = async (req, res) => {
 
 let getNews = async (req, res) => {
    try {
-      // let limit = req.query.limit
-      // let page = req.query.page
       let info = await doctorService.getNews(req.query)
       return res.status(200).json(info)
    } catch (error) {

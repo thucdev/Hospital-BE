@@ -12,9 +12,7 @@ module.exports = {
             type: Sequelize.BLOB("long"),
             allowNull: true,
          },
-         // doctorId: {
-         //     type: Sequelize.INTEGER,
-         // },
+
          title: {
             type: Sequelize.STRING,
          },

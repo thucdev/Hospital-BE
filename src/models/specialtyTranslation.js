@@ -14,11 +14,6 @@ module.exports = (sequelize, DataTypes) => {
             targetKey: "id",
             as: "translationData",
          })
-         // specialty_translation.belongsTo(models.Language, {
-         //     foreignKey: 'languageId',
-         //     targetKey: 'id',
-         //     as: 'LanguageTranslationData',
-         // })
       }
    }
    specialty_translation.init(

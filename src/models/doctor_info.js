@@ -18,13 +18,6 @@ module.exports = (sequelize, DataTypes) => {
    }
    Doctor_info.init(
       {
-         // email: DataTypes.STRING,
-         // password: DataTypes.STRING,
-         // fullName: DataTypes.STRING,
-         // address: DataTypes.STRING,
-         // phoneNumber: DataTypes.STRING,
-         // gender: DataTypes.STRING,
-         // image: DataTypes.BLOB('long'),
          doctorId: DataTypes.INTEGER,
          language: DataTypes.STRING,
          experience: DataTypes.JSON,
@@ -32,8 +25,6 @@ module.exports = (sequelize, DataTypes) => {
          degree: DataTypes.JSON,
          member: DataTypes.JSON,
          field: DataTypes.JSON,
-         // specialtyId: DataTypes.INTEGER,
-         // scheduleId: DataTypes.INTEGER,
       },
 
       {

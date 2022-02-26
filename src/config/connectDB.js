@@ -1,6 +1,5 @@
 const { Sequelize } = require("sequelize")
 
-// Option 3: Passing parameters separately (other dialects)
 const sequelize = new Sequelize("hospitaldb", "root", null, {
    host: "localhost",
    dialect: "mysql",
@@ -19,5 +18,4 @@ let connectDB = async () => {
    }
 }
 
-// module.exports = sequelize
 module.exports = connectDB
