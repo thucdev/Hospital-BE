@@ -38,7 +38,6 @@ const register = async (req, res) => {
       const salt = bcrypt.genSaltSync(10)
       const hashPW = bcrypt.hashSync(req.body.password, salt)
 
-      //create user
       const newUser = await db.User.create({
          email: req.body.email,
          password: hashPW,
@@ -62,18 +61,19 @@ const generateAccessToken = (data) => {
    const accessToken = jwt.sign(
       {
          id: data.id,
+         roleId: data.roleId,
       },
       process.env.JWT_ACCESS_KEY,
-      { expiresIn: "30s" }
+      { expiresIn: "10p" }
    )
    return accessToken
 }
 
-// refresh token
 const generateRefreshToken = (data) => {
    const refreshToken = jwt.sign(
       {
          id: data.id,
+         roleId: data.roleId,
       },
       process.env.JWT_REFRESH_KEY,
       { expiresIn: "30d" }
@@ -81,7 +81,6 @@ const generateRefreshToken = (data) => {
    return refreshToken
 }
 
-// Login
 const login = async (req, res) => {
    const { email, password } = req.body
    if (!email || !password)
@@ -102,19 +101,16 @@ const login = async (req, res) => {
       if (user && validPassword) {
          const accessToken = generateAccessToken(user)
          const refreshToken = generateRefreshToken(user)
-
-         //add refreshToken to cookie
-         res.cookie("refreshToken", refreshToken, {
-            httpOnly: true,
-            secure: false, // set = true when deploy
-            path: "/",
-            sameSite: "strict",
-         })
+         refreshTokens.push(refreshToken)
 
          delete user.password
-         return res
-            .status(200)
-            .json({ accessToken, success: true, userId: user.id, roleId: user.roleId })
+         return res.status(200).json({
+            accessToken,
+            refreshToken,
+            success: true,
+            userId: user.id,
+            roleId: user.roleId,
+         })
       }
    } catch (error) {
       console.log("err", error)
@@ -122,12 +118,14 @@ const login = async (req, res) => {
 }
 
 const requestRefreshToken = (req, res) => {
-   // take refresh token from user
-   const refreshToken = req.cookie.refreshToken
-   if (!refreshToken)
+   const refreshToken = req.body.refreshToken
+   console.log("refreshToken", refreshToken)
+   if (!refreshToken) {
       return res.status(401).json({ success: false, message: "You are not authenticated!" })
-   if (!refreshTokens.includes(refreshToken))
+   }
+   if (!refreshToken.includes(refreshTokens)) {
       return res.status(401).json({ success: false, message: "Token is not invalid" })
+   }
 
    jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY, (err, user) => {
       if (err) {
@@ -138,20 +136,14 @@ const requestRefreshToken = (req, res) => {
       const newAccessToken = generateAccessToken(user)
       const newRefreshToken = generateRefreshToken(user)
       refreshTokens.push(newRefreshToken)
-      //add refreshToken to cookie
-      res.cookie("refreshToken", newRefreshToken, {
-         httpOnly: true,
-         secure: false, // set = true when deploy
-         path: "/",
-         sameSite: "strict",
-      })
-      return res.status(200).json({ success: true, newAccessToken })
+
+      return res.status(200).json({ success: true, newAccessToken, newRefreshToken })
    })
 }
 
 const logout = (req, res) => {
-   res.clearCookie("refreshToken")
-   refreshTokens = refreshTokens.filter((token) => token !== req.cookie.refreshToken)
+   // res.clearCookie("refreshToken")
+   refreshTokens = refreshTokens.filter((token) => token !== req.body.refreshToken)
    return res.status(200).json({ success: true, message: "Logout successfully" })
 }
 

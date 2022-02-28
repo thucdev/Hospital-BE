@@ -67,7 +67,7 @@ let updateSpecialty = async (req, res) => {
 
 let deleteSpecialty = async (req, res) => {
    try {
-      let info = await specialtyService.deleteSpecialty(req.body.id)
+      let info = await specialtyService.deleteSpecialty(req.query.id)
       return res.status(200).json(info)
    } catch (error) {
       console.log(error)
