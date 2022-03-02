@@ -40,6 +40,6 @@ app.all("*", (req, res, next) => {
 })
 app.use(errorHandler)
 
-app.listen(port, hostname, () => {
+app.listen(process.env.PORT || 8080, hostname, () => {
    console.log(`Hello Thucidol, I am running at ${hostname}:${port}/`)
 })
