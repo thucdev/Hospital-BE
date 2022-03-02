@@ -1,11 +1,12 @@
 const { Sequelize } = require("sequelize")
+require("dotenv").config()
 
 const sequelize = new Sequelize(
-   "d1ahi64b3666le",
-   "rzhbtwtouqycum",
-   "bb8205cf35f743639b04ff91b4b53e3c65997dc2a937d10a1d447c6f4256e561",
+   process.env.DB_DATABASE_NAME,
+   process.env.DB_USER,
+   process.env.DB_PASSWORD,
    {
-      host: "ec2-3-225-79-57.compute-1.amazonaws.com",
+      host: process.env.DB_HOST,
       dialect: "postgres",
       logging: false,
       // define: {

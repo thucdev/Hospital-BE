@@ -119,7 +119,6 @@ const login = async (req, res) => {
 
 const requestRefreshToken = (req, res) => {
    const refreshToken = req.body.refreshToken
-   console.log("refreshToken", refreshToken)
    if (!refreshToken) {
       return res.status(401).json({ success: false, message: "You are not authenticated!" })
    }

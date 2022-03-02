@@ -10,6 +10,9 @@ import userController from "../../controllers/UserController/userController"
 let router = express.Router()
 
 const webRoute = (app) => {
+   router.get("/", (req, res) => {
+      res.send("welcome to backend")
+   })
    router.post("/v1/api/register", Authentication.register)
    router.post("/v1/api/login", Authentication.login)
    router.post("/v1/api/logout", verifyToken, Authentication.logout)
