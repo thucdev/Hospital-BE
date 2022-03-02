@@ -17,7 +17,6 @@ app.use(cors(corsOptions))
 connectDB()
 
 const hostname = "localhost"
-const port = 8080
 
 app.use(function (req, res, next) {
    res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000")
