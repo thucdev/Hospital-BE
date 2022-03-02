@@ -87,7 +87,7 @@ let hashUserPassword = (password) => {
 let getAllDoctor = () => {
    return new Promise(async (resolve, reject) => {
       try {
-         let res = await db.User.findAndCountAll({
+         let res = await db.User.findAll({
             where: { roleId: "R2" },
             include: [
                {
@@ -103,24 +103,16 @@ let getAllDoctor = () => {
                   ],
                },
             ],
+            attributes: {
+               exclude: ["password"],
+            },
             nest: true,
             raw: true,
          })
 
-         if (res && res.rows) {
-            res.rows.map((item) => {
-               item.image = Buffer.from(item.image, "base64").toString("binary")
-               item.doctor_infoData.experience = JSON.parse(item.doctor_infoData.experience)
-               item.doctor_infoData.degree = JSON.parse(item.doctor_infoData.degree)
-               item.doctor_infoData.certificate = JSON.parse(item.doctor_infoData.certificate)
-               item.doctor_infoData.member = JSON.parse(item.doctor_infoData.member)
-               item.doctor_infoData.field = JSON.parse(item.doctor_infoData.field)
-            })
-         }
          resolve({
             success: true,
-            data: res.rows,
-            total: res.count,
+            data: res,
          })
       } catch (error) {
          reject(error)

@@ -21,7 +21,7 @@ let getAllDoctor = async (req, res) => {
       console.log(error)
       return res.status(200).json({
          success: false,
-         message: "Error when trying to create new specialty",
+         message: "Error when trying to get all Doctors",
       })
    }
 }

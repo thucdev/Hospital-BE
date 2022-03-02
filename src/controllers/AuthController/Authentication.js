@@ -64,7 +64,7 @@ const generateAccessToken = (data) => {
          roleId: data.roleId,
       },
       process.env.JWT_ACCESS_KEY,
-      { expiresIn: "10p" }
+      { expiresIn: "10m" }
    )
    return accessToken
 }
