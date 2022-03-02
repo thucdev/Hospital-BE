@@ -4,12 +4,12 @@
    "private": true,
    "scripts": {
       "test": "echo \"Error: no test specified\" && exit 1",
-      "clean": "rm -rf build && mkdir build",
+      "clean": "rd /s /q dist build && mkdir build",
       "build-babel": "babel ./src -d ./build/src",
-      "build": "npm run clean && npm run build-babel",
+      "build": " npm run build-babel",
       "production": "npm run build && node ./build/src/server.js",
       "dev": "nodemon --exec ./node_modules/.bin/babel-node ./src/server.js",
-      "start": "node  ./src/server.js"
+      "start": "node ./build/src/server.js"
    },
    "dependencies": {
       "@babel/runtime": "^7.16.5",
