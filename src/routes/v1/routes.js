@@ -34,7 +34,7 @@ const webRoute = (app) => {
       specialtyController.createNewSpecialtyTranslation
    )
    router.get("/v1/api/get-all-specialties", specialtyController.getAllSpecialties)
-   router.get("/v1/api/get-specialty-by-id/", verifyToken, specialtyController.getSpecialtyById)
+   router.get("/v1/api/get-specialty-by-id/", specialtyController.getSpecialtyById)
    router.put(
       "/v1/api/update-specialty",
       verifyToken,
@@ -66,7 +66,11 @@ const webRoute = (app) => {
    router.get("/v1/api/get-all-schedules", adminController.getAllSchedules)
    router.post("/v1/api/is-email-exist", checkRole.checkAdmin, adminController.isEmailExist)
 
-   router.post("/v1/api/get-all-schedules-by-doctor", doctorController.getAllSchedules)
+   router.post(
+      "/v1/api/get-all-schedules-by-doctor",
+      checkRole.checkDoctor,
+      doctorController.getAllSchedules
+   )
 
    router.post("/v1/api/create-an-appointment", userController.createAppointment)
    router.post("/v1/api/verify-appointment", userController.verifyBookAppointment)
