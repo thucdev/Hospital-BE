@@ -123,12 +123,13 @@ const requestRefreshToken = (req, res) => {
       return res.status(401).json({ success: false, message: "You are not authenticated!" })
    }
    if (!refreshToken.includes(refreshTokens)) {
-      return res.status(401).json({ success: false, message: "Token is not invalid" })
+      return res.status(200).json({ success: false, message: "Token is not invalid" })
    }
 
    jwt.verify(refreshToken, process.env.JWT_REFRESH_KEY, (err, user) => {
       if (err) {
          console.log("err", err)
+         return res.status(200).json({ success: false, message: "Token is not invalid" })
       }
       refreshTokens = refreshTokens.filter((token) => token !== refreshToken)
 
