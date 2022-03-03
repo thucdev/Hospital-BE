@@ -20,11 +20,11 @@ module.exports = (sequelize, DataTypes) => {
       {
          doctorId: DataTypes.INTEGER,
          language: DataTypes.STRING,
-         experience: DataTypes.JSON,
-         certificate: DataTypes.JSON,
-         degree: DataTypes.JSON,
-         member: DataTypes.JSON,
-         field: DataTypes.JSON,
+         experience: DataTypes.LONGTEXT,
+         certificate: DataTypes.LONGTEXT,
+         degree: DataTypes.LONGTEXT,
+         member: DataTypes.LONGTEXT,
+         field: DataTypes.LONGTEXT,
       },
 
       {
