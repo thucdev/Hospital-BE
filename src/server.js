@@ -9,7 +9,7 @@ require("dotenv").config()
 const app = express()
 app.use(cookieParser())
 let corsOptions = {
-   origin: "http://localhost:3000",
+   origin: process.env.URL_REACT,
    credentials: true,
 }
 app.use(cors(corsOptions))
@@ -17,10 +17,9 @@ app.use(cors(corsOptions))
 connectDB()
 
 const hostname = "localhost"
-const port = 8080
 
 app.use(function (req, res, next) {
-   res.setHeader("Access-Control-Allow-Origin", "http://localhost:3000")
+   res.setHeader("Access-Control-Allow-Origin", process.env.URL_REACT)
    res.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS, PUT, PATCH, DELETE")
    res.setHeader("Access-Control-Allow-Headers", "X-Requested-With,content-type")
    res.setHeader("Access-Control-Allow-Credentials", true)
@@ -40,6 +39,6 @@ app.all("*", (req, res, next) => {
 })
 app.use(errorHandler)
 
-app.listen(port, hostname, () => {
-   console.log(`Hello Thucidol, I am running at ${hostname}:${port}/`)
+app.listen(process.env.PORT || 8080, () => {
+   console.log(`Hello Thucidol, I am running at ${process.env.PORT}/`)
 })
