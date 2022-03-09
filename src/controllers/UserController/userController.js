@@ -41,7 +41,7 @@ let getDoctorById = async (req, res) => {
 
 let getNewsById = async (req, res) => {
    try {
-      let info = await userService.getNewsById(req.query.id)
+      let info = await userService.getNewsById(req.params.id)
       return res.status(200).json(info)
    } catch (error) {
       console.log(error)
