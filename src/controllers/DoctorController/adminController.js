@@ -67,7 +67,7 @@ let paginationDoctor = async (req, res) => {
 
 let deleteDoctor = async (req, res) => {
    try {
-      let info = await adminService.paginationDoctor(req.query.id)
+      let info = await adminService.paginationDoctor(req.params.id)
       return res.status(200).json(info)
    } catch (error) {
       console.log(error)

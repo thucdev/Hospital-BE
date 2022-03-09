@@ -21,69 +21,58 @@ const webRoute = (app) => {
    //refresh token
    router.post("/v1/api/refresh", Authentication.requestRefreshToken)
 
+   router.get("/v1/api/specialties/:id", specialtyController.getSpecialtyById)
+   router.get("/v1/api/specialties", specialtyController.getAllSpecialties)
    router.post(
-      "/v1/api/create-new-specialty",
+      "/v1/api/specialties",
       verifyToken,
       checkRole.checkAdmin,
       specialtyController.createNewSpecialty
    )
    router.post(
-      "/v1/api/create-new-specialty-translation",
+      "/v1/api/specialty-translation",
       verifyToken,
       checkRole.checkAdmin,
       specialtyController.createNewSpecialtyTranslation
    )
-   router.get("/v1/api/get-all-specialties", specialtyController.getAllSpecialties)
-   router.get("/v1/api/get-specialty-by-id/", specialtyController.getSpecialtyById)
    router.put(
-      "/v1/api/update-specialty",
+      "/v1/api/specialties/:id",
       verifyToken,
       checkRole.checkAdmin,
       specialtyController.updateSpecialty
    )
    router.delete(
-      "/v1/api/delete-specialty",
+      "/v1/api/specialties/:id",
       verifyToken,
       checkRole.checkAdmin,
       specialtyController.deleteSpecialty
    )
+   router.post("/v1/api/is-email-exist", checkRole.checkAdmin, adminController.isEmailExist)
+
+   router.get("/v1/api/doctors", adminController.getAllDoctor)
+   router.get("/v1/api/doctors/:id", userController.getDoctorById)
+   router.get("/v1/api/pagination-doctors", adminController.paginationDoctor)
+   router.post("/v1/api/doctor", verifyToken, checkRole.checkAdmin, adminController.createDoctor)
    router.delete(
-      "/v1/api/delete-doctor",
+      "/v1/api/doctor/:id",
       verifyToken,
       checkRole.checkAdmin,
       adminController.deleteDoctor
    )
-
-   router.post(
-      "/v1/api/create-doctor",
-      verifyToken,
-      checkRole.checkAdmin,
-      adminController.createDoctor
-   )
-   router.get("/v1/api/get-doctor-by-id/", userController.getDoctorById)
-   router.get("/v1/api/doctors", adminController.paginationDoctor)
-   router.get("/v1/api/get-all-doctors", adminController.getAllDoctor)
-   router.get("/v1/api/get-all-schedules", adminController.getAllSchedules)
-   router.post("/v1/api/is-email-exist", checkRole.checkAdmin, adminController.isEmailExist)
-
+   router.get("/v1/api/schedules", adminController.getAllSchedules)
    router.post(
       "/v1/api/get-all-schedules-by-doctor",
       checkRole.checkDoctor,
       doctorController.getAllSchedules
    )
 
-   router.post("/v1/api/create-an-appointment", userController.createAppointment)
+   router.post("/v1/api/appointments", userController.createAppointment)
    router.post("/v1/api/verify-appointment", userController.verifyBookAppointment)
-   router.post("/v1/api/create-question", userController.createQuestion)
+   router.post("/v1/api/questions", userController.createQuestion)
 
-   router.post(
-      "/v1/api/create-news",
-      verifyToken,
-      checkRole.checkAdmin,
-      doctorController.createNews
-   )
+   router.get("/v1/api/news/:id", userController.getNewsById)
    router.get("/v1/api/news", doctorController.getNews)
-   router.get("/v1/api/get-news-by-id/", userController.getNewsById)
+   router.post("/v1/api/news", verifyToken, checkRole.checkAdmin, doctorController.createNews)
 
    return app.use("/", router)
 }

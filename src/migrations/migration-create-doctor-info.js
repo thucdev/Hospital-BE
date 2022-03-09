@@ -12,22 +12,22 @@ module.exports = {
             type: Sequelize.INTEGER,
          },
          language: {
-            type: Sequelize.LONGTEXT,
+            type: Sequelize.JSON,
          },
          certificate: {
-            type: Sequelize.LONGTEXT,
+            type: Sequelize.JSON,
          },
          experience: {
-            type: Sequelize.LONGTEXT,
+            type: Sequelize.JSON,
          },
          degree: {
-            type: Sequelize.LONGTEXT,
+            type: Sequelize.JSON,
          },
          member: {
-            type: Sequelize.LONGTEXT,
+            type: Sequelize.JSON,
          },
          field: {
-            type: Sequelize.LONGTEXT,
+            type: Sequelize.JSON,
          },
          // specialtyId: {
          //    type: Sequelize.INTEGER,

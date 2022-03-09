@@ -41,7 +41,7 @@ let getAllSpecialties = async (req, res) => {
 
 let getSpecialtyById = async (req, res) => {
    try {
-      let info = await specialtyService.getSpecialtyById(req.query.id)
+      let info = await specialtyService.getSpecialtyById(req.params.id)
       return res.status(200).json(info)
    } catch (error) {
       console.log(error)
@@ -67,7 +67,7 @@ let updateSpecialty = async (req, res) => {
 
 let deleteSpecialty = async (req, res) => {
    try {
-      let info = await specialtyService.deleteSpecialty(req.query.id)
+      let info = await specialtyService.deleteSpecialty(req.params.id)
       return res.status(200).json(info)
    } catch (error) {
       console.log(error)
